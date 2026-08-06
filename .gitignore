@@ -1,0 +1,15 @@
+# OS cruft
+.DS_Store
+Thumbs.db
+
+# Office lock files
+~$*
+
+# Arduino build output
+build/
+*.hex
+*.elf
+
+# Private coaching / planning notes - not for the public repo
+*_GUIDE.md
+AUG4_TASK1_LCD_WIRING.md
