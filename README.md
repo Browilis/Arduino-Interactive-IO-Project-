@@ -26,6 +26,11 @@ a 16x2 character LCD, running on real hardware.
 - 1x 10kΩ potentiometer (LCD contrast), 1x 220Ω resistor (LCD backlight).
 - Breadboard + jumper wires.
 
+<!-- WIRING PHOTO: drop wiring.jpg in this folder, then delete this comment and
+     uncomment the line below. Nothing else in the README needs to change.
+![Breadboard wiring — UNO, HD44780 in 4-bit mode, button on D7](wiring.jpg)
+-->
+
 ## Wiring
 
 | Component | Arduino pin | Notes |
@@ -50,8 +55,6 @@ Constructor matching this map — argument order is `RS, E, D4, D5, D6, D7`:
 ```cpp
 LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
 ```
-
-_TODO: add the wiring photo — `wiring.jpg`._
 
 ## Build & run
 
@@ -89,10 +92,7 @@ conflicts before powering up is cheaper than debugging a phantom input.
 
 ## Debugging story
 
-> _Three lines, while it's fresh: (1) what I expected, (2) what actually
-> happened, (3) my hypothesis and how I tested it._
-
-**Bug 1 — the I2C scanner that found nothing.**
+**The I2C scanner that found nothing.**
 I expected an I2C bus scan to report an address for the LCD. It found no devices
 at all. Hypothesis: the display is a parallel HD44780, not an I2C module, so it
 has no bus address to find. Confirmed by counting the pins — 16 parallel lines —
@@ -100,9 +100,13 @@ and by the presence of a contrast potentiometer in the circuit, which an I2C
 backpack would handle internally. The scanner was working correctly; my model of
 the part was wrong.
 
-**Bug 2 —** _(fill in the one from tonight, if you hit one. Blank screen,
-garbage characters, residue on the row, double state advances — whichever it was,
-three lines.)_
+The takeaway I carried forward: when an instrument reports nothing, check the
+assumption that the thing being measured is the kind of thing the instrument can
+see, before assuming the instrument is broken.
+
+<!-- Second debugging story goes here when you hit one worth writing up.
+     Format: what I expected / what actually happened / hypothesis and how I
+     tested it. Keep it to three or four sentences like the one above. -->
 
 ## Concepts practiced
 
