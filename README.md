@@ -89,7 +89,25 @@ have made `digitalRead()` sample an active LCD data line. Caught while assigning
 the LCD pin map rather than at the bench — reading your own pin assignments for
 conflicts before powering up is cheaper than debugging a phantom input.
 
-## Debugging story
+## Debugging stories
+
+**The display that powered up but never displayed anything.**
+I expected the LCD to print its banner the moment the sketch ran. The backlight
+came on and the screen stayed completely blank — no characters, and not even the
+row of solid blocks that a live-but-mis-contrasted HD44780 shows. Serial output
+confirmed the firmware was running and reaching `printState()`, which moved the
+fault off the code and onto the display side. Re-reading the wiring notes for the
+VO pin, I found I had tied it straight to 5 V. VO sets the contrast bias and
+expects a voltage *between* the rails, not a rail itself; driven to 5 V the
+characters and the background sit at the same apparent level, so a working
+display looks like a dead one. I added a 10 kΩ potentiometer as a divider across
+5 V and GND with the wiper on VO, swept it end to end, and the banner appeared
+partway through the range.
+
+The takeaway I carried forward: "not displaying" and "not running" are different
+failures, and the serial console is the cheapest instrument for telling them
+apart. I spent an evening suspecting my code for a wiring fault the datasheet
+describes in one line.
 
 **The I2C scanner that found nothing.**
 I expected an I2C bus scan to report an address for the LCD. It found no devices
@@ -103,10 +121,6 @@ The takeaway I carried forward: when an instrument reports nothing, check the
 assumption that the thing being measured is the kind of thing the instrument can
 see, before assuming the instrument is broken.
 
-<!-- Second debugging story goes here when you hit one worth writing up.
-     Format: what I expected / what actually happened / hypothesis and how I
-     tested it. Keep it to three or four sentences like the one above. -->
-
 ## Concepts practiced
 
 - Timer-based polling debounce (non-blocking, no interrupts, no `volatile`)
@@ -114,7 +128,8 @@ see, before assuming the instrument is broken.
 - A small `enum` state machine
 - UART / serial as a debugging instrument
 - Driving an HD44780 in 4-bit parallel mode, and why D0–D3 stay unconnected
-- Separating a peripheral's analog input (contrast) from its digital interface
+- Separating a peripheral's analog input (contrast) from its digital interface,
+  and biasing it with a potentiometer divider rather than a supply rail
 - Budgeting a slow peripheral's writes so they don't starve a time-sensitive loop
 
 ## Next
