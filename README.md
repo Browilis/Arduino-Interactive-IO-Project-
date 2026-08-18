@@ -8,6 +8,10 @@ a 16x2 character LCD, running on real hardware.
 > machine, non-blocking timing, and status reported to two independent output
 > devices with very different timing characteristics.
 
+![Arduino UNO, breadboard and 16x2 HD44780 LCD wired in 4-bit parallel mode. The
+display reads "Project 1 I/O / LED: BLINK" — the state machine running on
+hardware.](wiring.jpg)
+
 ## What it does
 
 - Boots and prints a `hello` banner + instructions over UART (9600 baud), and a
@@ -25,11 +29,6 @@ a 16x2 character LCD, running on real hardware.
 - 1x HD44780-compatible 16x2 character LCD, driven in **4-bit parallel mode**.
 - 1x 10kΩ potentiometer (LCD contrast), 1x 220Ω resistor (LCD backlight).
 - Breadboard + jumper wires.
-
-<!-- WIRING PHOTO: drop wiring.jpg in this folder, then delete this comment and
-     uncomment the line below. Nothing else in the README needs to change.
-![Breadboard wiring — UNO, HD44780 in 4-bit mode, button on D7](wiring.jpg)
--->
 
 ## Wiring
 
